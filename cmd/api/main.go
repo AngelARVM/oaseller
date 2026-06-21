@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"oaseller/internal/app/merchants"
 	"oaseller/internal/health"
 	"oaseller/internal/platform/postgres"
 	"os"
@@ -25,6 +26,10 @@ func main() {
 
 	defer pgPool.Close()
 
+	merchantRepository := merchants.NewRepository(pgPool)
+	merchantService := merchants.NewService(merchantRepository)
+	merchantHandler := merchants.NewHandler(merchantService)
+
 	port := os.Getenv("PORT")
 
 	if port == "" {
@@ -41,10 +46,14 @@ func main() {
 	r.Get("/health/live", healthHandler.Live)
 	r.Get("/health/ready", healthHandler.Ready)
 
+	r.Get("/merchants", merchantHandler.ListMerchants)
+	r.Post("/merchants", merchantHandler.CreateMerchant)
+
 	log.Printf("server running on port %s", port)
 
 	err = http.ListenAndServe(":"+port, r)
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("%v", err)
+		return
 	}
 }
