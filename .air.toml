@@ -12,7 +12,7 @@
     delay = 1000
     entrypoint = ["./tmp/main"]
     exclude_dir = ["assets", "tmp", "vendor", "testdata"]
-    exclude_file = []
+    exclude_file = [".git"]
     exclude_regex = ["_test.go"]
     exclude_unchanged = false
     follow_symlink = false

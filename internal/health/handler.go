@@ -24,7 +24,11 @@ func (h *Handler) Live(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) Ready(w http.ResponseWriter, r *http.Request) {
 	response := h.service.Ready(r.Context())
 
-	writeJSON(w, http.StatusOK, response)
+	statusCode := http.StatusOK
+	if response.Status != "ok" {
+		statusCode = http.StatusServiceUnavailable
+	}
+	writeJSON(w, statusCode, response)
 }
 
 func writeJSON(w http.ResponseWriter, statusCode int, data any) {
