@@ -31,3 +31,11 @@ func (s *Service) CreateMerchant(ctx context.Context, req CreateMerchantRequest)
 func (s *Service) ListMerchants(ctx context.Context) ([]Merchant, error) {
 	return s.repository.ListMerchants(ctx)
 }
+
+func (s *Service) Merchant(ctx context.Context, merchantId int64) (Merchant, error) {
+	return s.repository.Merchant(ctx, merchantId)
+}
+
+func (s *Service) PatchMerchant(ctx context.Context, merchantId int64, update UpdateMerchantRequest) (Merchant, error) {
+	return s.repository.PatchMerchant(ctx, merchantId, update)
+}

@@ -48,6 +48,8 @@ func main() {
 
 	r.Get("/merchants", merchantHandler.ListMerchants)
 	r.Post("/merchants", merchantHandler.CreateMerchant)
+	r.Get("/merchants/{id}", merchantHandler.Merchant)
+	r.Patch("/merchants/{id}", merchantHandler.PatchMerchant)
 
 	log.Printf("server running on port %s", port)
 
